@@ -3,7 +3,14 @@
 <% if product.price > 0 and volume_prices.present? %>
   <div id="bulk-discount">
     <h6><%= Spree.t(:bulk_discount) %></h6>
-    <table class="table">
+    <table class="table table-condensed">
+      <tr class="active">
+        <th><%= Spree.t(:quantity) %></th>
+        <th><%= Spree.t(:price) %></th>
+        <% if display_percent %>
+          <th><%= Spree.t(:percent) %></th>
+        <% end %>
+      </tr>
       <% volume_prices.each do |v| %>
         <%= content_tag(:tr) do %>
           <%= content_tag :td, (v.open_ended? ? v.range : "#{v.range.to_range.begin}–#{v.range.to_range.end}") %>
