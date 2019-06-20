@@ -24,6 +24,8 @@ class Spree::VolumePrice < ActiveRecord::Base
               message: I18n.t(:'activerecord.errors.messages.must_be_in_format')
             }
 
+  after_initialize :default_to_price
+
   OPEN_ENDED = /\(?[0-9]+\+\)?/
 
   def include?(quantity)
@@ -38,5 +40,9 @@ class Spree::VolumePrice < ActiveRecord::Base
   # indicates whether or not the range is a true Ruby range or an open ended range with no upper bound
   def open_ended?
     OPEN_ENDED =~ range
+  end
+
+  private def default_to_price
+    self.discount_type ||= 'price'
   end
 end
