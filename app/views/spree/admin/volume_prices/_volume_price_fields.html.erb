@@ -6,10 +6,10 @@
   <td>
     <%= error_message_on(f.object, :discount_type) %>
     <%= f.select :discount_type, [
-        ["#{Spree.t(:total_price)}", 'price'],
+        ["#{Spree.t(:total_price)}", ''],
         ["#{Spree.t(:percent_discount)}", 'percent'],
         ["#{Spree.t(:price_discount)}", 'dollar']
-      ], { inlcude_blank: true }, class: 'select2' %>
+      ], {}, class: 'select2' %>
   </td>
   <td>
     <%= error_message_on(f.object, :range) %>
