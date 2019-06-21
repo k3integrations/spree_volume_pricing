@@ -6,18 +6,18 @@ Spree::LineItem.class_eval do
   # chosen for the product. This is mainly for compatibility with spree_sale_products
   #
   # Assumption here is that the volume price currency is the same as the product currency
-  old_copy_price = instance_method(:copy_price)
-  define_method(:copy_price) do
-    old_copy_price.bind(self).call
-    return unless variant
 
-    if changed? && changes.keys.include?('quantity')
-      vprice = variant.volume_price(quantity, order.user)
-      if price.present? && vprice <= variant.price
-        self.price = vprice and return
-      end
+  def copy_price
+    if variant
+      update_price
+      self.cost_price = variant.cost_price if cost_price.nil?
+      self.currency = variant.currency if currency.nil?
     end
+  end
 
-    self.price = variant.price if price.nil?
+  def update_price
+    return unless variant
+    vprice = variant.volume_price(quantity, order.user)
+    self.price = vprice if price.nil? || vprice <= variant.price
   end
 end
