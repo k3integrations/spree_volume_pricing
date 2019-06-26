@@ -13,7 +13,11 @@
       </tr>
       <% volume_prices.each do |v| %>
         <%= content_tag(:tr) do %>
-          <%= content_tag :td, (v.open_ended? ? v.range : "#{v.range.to_range.begin}–#{v.range.to_range.end}") %>
+          <% if v.name.present? %>
+            <%= content_tag :td, v.name %>
+          <% else %>
+            <%= content_tag :td, (v.open_ended? ? v.range : "#{v.range.to_range.begin}–#{v.range.to_range.end}") %>
+          <% end %>
           <%= content_tag :td, Spree::Money.new(v.amount).to_s %>
           <%= content_tag(:td, '%i%' % ((1.0 - v.amount / product.master.price) * 100.0).round) if display_percent %>
         <% end %>
